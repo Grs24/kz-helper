@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "kz-helper",
+  "description": "chrome extension for kuaizi",
+  "version": "0.0.1",
+  "options_page": "options.html",
+  "short_name": "kuaiziHelp",
+  "homepage_url": "https://www.kuaizi.ai",
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+  "browser_action": {
+    "default_icon": "img/logo.png",
+    "default_title": "kuaizi小工具",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "img/logo.png",
+    "48": "img/logo.png",
+    "128": "img/logo.png"
+  },
+  "permissions": [
+    "tabs",
+    "notifications",
+    "storage",
+    "http://*/*",
+    "https://*/*",
+    "contextMenus",
+    "declarativeContent"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "offline_enabled": true
+}
