@@ -3,7 +3,7 @@
  * @Date: 2021-04-27 17:12:01
  * @Author: gaorongsheng
  * @LastEditors: gaorongsheng
- * @LastEditTime: 2021-06-27 19:05:19
+ * @LastEditTime: 2021-06-30 00:59:45
  */
 
 export const jumpUrl = url => {
@@ -33,7 +33,7 @@ export const getChromeStorage = key => {
  * @param {*} key
  * @return {value}
  */
-export const updateChromeStorage = key => {
+export const updateChromeStorage = (val, key) => {
   return new Promise(resolve => {
     const str = window.JSON.stringify(val)
     chrome.storage.sync.set({ [key]: str }, () => {
@@ -69,4 +69,30 @@ export const pageStateMatcher = url => {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([rule])
   })
+}
+
+/**
+ * @description:获取当去tab的url
+ * @param {*} key
+ * @return {value}
+ */
+export const getCurrentTabUrl = () => {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      let url = tabs[0].url
+      resolve(url)
+    })
+  })
+}
+
+/**
+ * @description:获取url的参数
+ * @param {*} key
+ * @return {value}
+ */
+export const getUrlParams = url => {
+  return url.replace(
+    /http(s?):\/\/[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/,
+    ''
+  )
 }

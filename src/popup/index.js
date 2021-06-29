@@ -1,12 +1,24 @@
 import Vue from 'vue'
-import AppComponent from './App/popup.vue'
+import AppComponent from './index.vue'
 import 'element-ui/lib/theme-chalk/index.css'
-import './globa.css'
+import './module/less/globa.css'
 Vue.component('app-component', AppComponent)
 
-import { Message, MessageBox, Icon, Input } from 'element-ui'
+import {
+  Message,
+  MessageBox,
+  Icon,
+  Input,
+  Dialog,
+  Form,
+  Button
+} from 'element-ui'
 
-Vue.use(Icon).use(Input)
+Vue.use(Icon)
+  .use(Input)
+  .use(Dialog)
+  .use(Form)
+  .use(Button)
 
 new Vue({
   el: '#app',
