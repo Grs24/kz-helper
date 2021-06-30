@@ -4,15 +4,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './module/less/globa.css'
 Vue.component('app-component', AppComponent)
 
-import {
-  Message,
-  MessageBox,
-  Icon,
-  Input,
-  Dialog,
-  Form,
-  Button
-} from 'element-ui'
+import { Icon, Input, Dialog, Form, Button } from 'element-ui'
 
 Vue.use(Icon)
   .use(Input)

@@ -12,17 +12,19 @@
           autofocus
           @keydown.enter.native="handleKeyDown"
         >
-          <template slot="prepend">local.kuaizi.co:</template>
+          <template slot="prepend"
+            >{{ jumpUrlData.http }}{{ jumpUrlData.hostName }}:</template
+          >
         </el-input>
       </div>
       <div class="row" @click="jumpSetting">
         <i class="el-icon-setting"></i>
         <span>设置</span>
       </div>
-      <div class="row">
+      <!-- <div class="row" @click="jumpReadme">
         <i class="el-icon-document"></i>
         <span>使用文档</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -37,7 +39,12 @@ import {
   getUrlParams
 } from '../utils'
 const { JUMP_URL_DEFALUT } = defaultSetting
-const { http: HTTP, hostName: HOSTNAME, port: PORT } = JUMP_URL_DEFALUT
+const {
+  http: HTTP,
+  hostName: HOSTNAME,
+  port: PORT,
+  urlParamsReg: URLPARAMSREG
+} = JUMP_URL_DEFALUT
 
 export default {
   name: 'popup',
@@ -46,14 +53,16 @@ export default {
       jumpUrlData: {
         http: HTTP,
         hostName: HOSTNAME,
-        port: PORT
+        port: PORT,
+        urlParamsReg: URLPARAMSREG
       }
     }
   },
   methods: {
     // 初始化
     async initData() {
-      this.jumpUrlData = await getChromeStorage('jumpUrlData')
+      const jumpUrlData = await getChromeStorage('jumpUrlData')
+      jumpUrlData && (this.jumpUrlData = jumpUrlData)
     },
     // 跳转设置页面
     jumpSetting() {
@@ -61,12 +70,7 @@ export default {
       const url = `chrome-extension://${id}/options.html`
       jumpUrl(url)
     },
-
-    // 更新设置
-    settingUpdate(obj) {
-      this.Setting = obj
-      return updateChromeStorage(this.Setting, this.NET.GLOBALSETTING)
-    },
+    // 键盘确认
     handleKeyDown(e) {
       const isEnterKey = (e.keyCode || e.which) == 13
       if (isEnterKey) {
@@ -80,6 +84,7 @@ export default {
       let urlParams = getUrlParams(currentUrl)
       const { http, hostName, port } = this.jumpUrlData
       let url = `${http}${hostName}:${port}${urlParams}`
+
       jumpUrl(url)
     }
   },

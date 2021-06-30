@@ -3,8 +3,10 @@
  * @Date: 2021-04-27 17:12:01
  * @Author: gaorongsheng
  * @LastEditors: gaorongsheng
- * @LastEditTime: 2021-06-30 00:59:45
+ * @LastEditTime: 2021-06-30 17:26:07
  */
+import { defaultSetting } from './config.js'
+const { JUMP_URL_DEFALUT } = defaultSetting
 
 export const jumpUrl = url => {
   window.open(url, 'target')
@@ -48,7 +50,6 @@ export const updateChromeStorage = (val, key) => {
  * @param {*} url
  */
 export const pageStateMatcher = url => {
-  console.log('url :>> ', url)
   const rule = {
     conditions: [
       // 只有筷子网站才显示pageAction
@@ -58,14 +59,6 @@ export const pageStateMatcher = url => {
     ],
     actions: [new chrome.declarativeContent.ShowPageAction()]
   }
-
-  // const onPageChanged = chrome.declarativeContent.onPageChanged
-  // console.log('onPageChanged :>> ', onPageChanged)
-  // console.log('rule :>> ', rule)
-  // onPageChanged.removeRules(undefined, () => {
-  //   onPageChanged.addRules([rule])
-  // })
-
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([rule])
   })
@@ -90,9 +83,7 @@ export const getCurrentTabUrl = () => {
  * @param {*} key
  * @return {value}
  */
-export const getUrlParams = url => {
-  return url.replace(
-    /http(s?):\/\/[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/,
-    ''
-  )
+export const getUrlParams = (url, reg = '') => {
+  let Reg = reg || JUMP_URL_DEFALUT.urlParamsReg
+  return url.replace(Reg, '')
 }

@@ -52,7 +52,7 @@ if (isProd) {
   plugins.push(
     new ZipPlugin({
       path: path.resolve('dist'),
-      filename: 'kz-extension-dist.zip'
+      filename: 'kz-helper-dist.zip'
     })
   )
 }
