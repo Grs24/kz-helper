@@ -1,9 +1,9 @@
 /*
- * @Description: 常用方法
+ * @Description: 常用方法（包括浏览器特有事件）
  * @Date: 2021-04-27 17:12:01
  * @Author: gaorongsheng
  * @LastEditors: gaorongsheng
- * @LastEditTime: 2021-06-30 17:26:07
+ * @LastEditTime: 2021-07-05 15:13:44
  */
 import { defaultSetting } from './config.js'
 const { JUMP_URL_DEFALUT } = defaultSetting

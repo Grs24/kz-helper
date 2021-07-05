@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "npm run build-watch",
-    "build": "vue-cli-service build",
+    "build": "node deploy.js && npm run build-dist",
+    "build-dist": "vue-cli-service build",
     "build-watch": "vue-cli-service build-watch",
     "analyze": "npm run build --report"
   },

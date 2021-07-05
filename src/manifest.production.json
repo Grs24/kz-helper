@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "kz-helper",
-  "description": "chrome extension for kuaizi",
-  "version": "0.0.1",
+  "description": "kuaizi小助手，加筷开发！",
+  "version": "0.1.0",
   "options_page": "options.html",
   "short_name": "kuaiziHelp",
   "homepage_url": "https://www.kuaizi.ai",
@@ -11,7 +11,7 @@
   },
   "browser_action": {
     "default_icon": "img/logo.png",
-    "default_title": "kuaizi小工具",
+    "default_title": "kuaizi小助手，加筷开发！",
     "default_popup": "popup.html"
   },
   "icons": {

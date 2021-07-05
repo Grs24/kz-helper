@@ -18,20 +18,10 @@ chromeName.forEach(name => {
 })
 
 // 生成manifest文件
-const manifest = isProd
-  ? {
-      from: path.resolve('src/manifest.production.json'),
-      to: `${path.resolve('dist')}/manifest.json`
-    }
-  : {
-      from: path.resolve('src/manifest.development.json'),
-      to: `${path.resolve('dist')}/manifest.json`
-    }
-
-// const manifest = {
-//   from: path.resolve('src/manifest.production.json'),
-//   to: `${path.resolve('dist')}/manifest.json`
-// }
+const manifest = {
+  from: path.resolve('src/manifest.production.json'),
+  to: `${path.resolve('dist')}/manifest.json`
+}
 
 const plugins = [CopyWebpackPlugin([manifest])]
 
