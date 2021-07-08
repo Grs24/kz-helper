@@ -2,8 +2,8 @@
  * @Description: config 配置
  * @Date: 2021-04-27 17:23:32
  * @Author: gaorongsheng
- * @LastEditors: gaorongsheng
- * @LastEditTime: 2021-06-30 17:18:34
+ * @LastEditors: mazexin
+ * @LastEditTime: 2021-07-08 17:27:31
  */
 
 // 默认全局设置
@@ -15,9 +15,10 @@ export const defaultSetting = {
     url: 'kuaizi'
   },
   JUMP_URL_DEFALUT: {
-    http: 'http://',
-    hostName: 'local.kuaizi.co',
-    port: '8080',
-    urlParamsReg: /http(s?):\/\/[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/
+    name: 'default',
+    replaceStr: '',
+    hostName: 'http://local.kuaizi.co',
+    port: '8080'
+    // urlParamsReg: /http(s?):\/\/[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/
   }
 }

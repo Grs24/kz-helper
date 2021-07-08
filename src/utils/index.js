@@ -2,8 +2,8 @@
  * @Description: 常用方法（包括浏览器特有事件）
  * @Date: 2021-04-27 17:12:01
  * @Author: gaorongsheng
- * @LastEditors: gaorongsheng
- * @LastEditTime: 2021-07-05 15:13:44
+ * @LastEditors: mazexin
+ * @LastEditTime: 2021-07-08 16:10:16
  */
 import { defaultSetting } from './config.js'
 const { JUMP_URL_DEFALUT } = defaultSetting
@@ -65,7 +65,7 @@ export const pageStateMatcher = url => {
 }
 
 /**
- * @description:获取当去tab的url
+ * @description:获取当前tab的url
  * @param {*} key
  * @return {value}
  */
@@ -75,6 +75,9 @@ export const getCurrentTabUrl = () => {
       let url = tabs[0].url
       resolve(url)
     })
+    // chrome.tabs.getSelected(null, function(tab) {
+    //   resolve(tab.url)
+    // })
   })
 }
 
@@ -84,6 +87,16 @@ export const getCurrentTabUrl = () => {
  * @return {value}
  */
 export const getUrlParams = (url, reg = '') => {
+  let Reg = reg || JUMP_URL_DEFALUT.urlParamsReg
+  return url.replace(Reg, '')
+}
+
+/**
+ * @description:获取替换后的网址
+ * @param {*} key
+ * @return {value}
+ */
+export const getUrl = (url, reg = '') => {
   let Reg = reg || JUMP_URL_DEFALUT.urlParamsReg
   return url.replace(Reg, '')
 }

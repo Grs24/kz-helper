@@ -2,7 +2,11 @@
   <div class="popup-page">
     <div class="box-card">
       <div class="row">
-        <i class="el-icon-position"></i>
+        <i
+          title="点击跳转"
+          class="el-icon-position leftIcon"
+          @click="handleJumpToUrl(jumpUrlData)"
+        ></i>
         <el-input
           class="input-urlPort"
           placeholder="输入端口号"
@@ -12,14 +16,40 @@
           autofocus
           @keydown.enter.native="handleKeyDown"
         >
-          <template slot="prepend"
-            >{{ jumpUrlData.http }}{{ jumpUrlData.hostName }}:</template
-          >
+          <template slot="prepend">{{ jumpUrlData.hostName }}:</template>
         </el-input>
       </div>
-      <div class="row" @click="jumpSetting">
-        <i class="el-icon-setting"></i>
-        <span>设置</span>
+      <div
+        class="row"
+        v-for="(item, index) in jumpUrlDataArr"
+        :key="index"
+        :title="'点击跳转' + item.name"
+        @click="handleJumpToUrl(item)"
+      >
+        <div>
+          <i
+            class="el-icon-s-promotion leftIcon"
+            @click="handleJumpToUrl(item)"
+          ></i>
+          {{ item.name }}{{ item.port ? '(:' + item.port + ')' : '' }}
+        </div>
+        <div @click.stop="editJumpUrlData(index)" class="ctrl">
+          <i :title="'修改' + item.name" class="el-icon-edit"></i>
+          <div @click.stop="" class="more">
+            <span title="更多操作"><i class="el-icon-more-outline"></i></span>
+            <div class="moreBtn" @click.stop="" title="">
+              <i
+                :title="'删除' + item.name"
+                class="el-icon-delete"
+                @click.stop="removeRule(index)"
+              ></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row btn" @click="addJumpUrlData">
+        <i class="el-icon-plus leftIcon"></i>
+        <span>添加跳转规则</span>
       </div>
       <!-- <div class="row" @click="jumpReadme">
         <i class="el-icon-document"></i>
@@ -40,52 +70,83 @@ import {
 } from '../utils'
 const { JUMP_URL_DEFALUT } = defaultSetting
 const {
-  http: HTTP,
+  name: NAME,
+  replaceStr: REPLACESTR,
   hostName: HOSTNAME,
-  port: PORT,
-  urlParamsReg: URLPARAMSREG
+  port: PORT
 } = JUMP_URL_DEFALUT
+import { initContextMenus } from '@/background/contextMenus'
 
 export default {
   name: 'popup',
   data() {
     return {
       jumpUrlData: {
-        http: HTTP,
+        name: NAME,
+        replaceStr: REPLACESTR,
         hostName: HOSTNAME,
-        port: PORT,
-        urlParamsReg: URLPARAMSREG
-      }
+        port: PORT
+      },
+      jumpUrlDataArr: []
     }
   },
   methods: {
     // 初始化
     async initData() {
       const jumpUrlData = await getChromeStorage('jumpUrlData')
-      jumpUrlData && (this.jumpUrlData = jumpUrlData)
+      if (jumpUrlData && !Array.isArray(jumpUrlData)) {
+        this.jumpUrlData = jumpUrlData
+      }
+      const jumpUrlDataArr = await getChromeStorage('jumpUrlDataArr')
+      if (Array.isArray(jumpUrlDataArr)) {
+        // 浏览器存储的数据是数组
+        this.jumpUrlDataArr = jumpUrlDataArr
+      } else {
+        // 非数组
+        this.jumpUrlDataArr = []
+      }
     },
-    // 跳转设置页面
-    jumpSetting() {
+    // 跳转设置页面-添加
+    addJumpUrlData() {
       const { id } = chrome.runtime
       const url = `chrome-extension://${id}/options.html`
       jumpUrl(url)
     },
-    // 键盘确认
+    // 跳转设置页面-修改
+    editJumpUrlData(index) {
+      const { id } = chrome.runtime
+      const url = `chrome-extension://${id}/options.html?index=${index}`
+      jumpUrl(url)
+    },
+    // 键盘确认 修改默认端口号
     handleKeyDown(e) {
-      const isEnterKey = (e.keyCode || e.which) == 13
-      if (isEnterKey) {
-        updateChromeStorage(this.jumpUrlData, 'jumpUrlData')
-        this.handleJumpToUrl()
-      }
+      updateChromeStorage(this.jumpUrlData, 'jumpUrlData')
+      this.handleJumpToUrl(this.jumpUrlData)
+      this.$nextTick(() => {
+        // 更新网页右键菜单
+        initContextMenus()
+      })
     },
     // 跳转指定url
-    async handleJumpToUrl() {
-      let currentUrl = await getCurrentTabUrl()
-      let urlParams = getUrlParams(currentUrl)
-      const { http, hostName, port } = this.jumpUrlData
-      let url = `${http}${hostName}:${port}${urlParams}`
-
+    async handleJumpToUrl(data) {
+      const currentUrl = await getCurrentTabUrl()
+      let origin = (currentUrl.match(/https?:\/\/.*?\//) || [''])[0]
+      if (origin.length) origin = origin.slice(0, origin.length - 1)
+      const { replaceStr, hostName, port } = data
+      const url = currentUrl.replace(
+        origin + replaceStr,
+        hostName + (port ? ':' + port : '')
+      )
       jumpUrl(url)
+    },
+    // 删除跳转规则
+    removeRule(index) {
+      this.jumpUrlDataArr.splice(index, 1)
+      updateChromeStorage(this.jumpUrlDataArr, 'jumpUrlDataArr')
+      this.$nextTick(() => {
+        // 更新网页右键菜单
+        initContextMenus()
+      })
     }
   },
   created() {
@@ -106,23 +167,45 @@ export default {
 .box-card i {
   font-size: 14px;
   color: #666;
-  margin-right: 10px;
 }
 
 .box-card .row {
-  cursor: pointer;
-  padding: 10px 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
 }
-.box-card .row span {
-  margin-right: 10px;
+.box-card .row .leftIcon {
+  margin-right: 8px;
 }
 .box-card .row:hover {
   background: #e7f6fb;
+}
+.box-card .btn {
+  justify-content: center;
+}
+/* 操作 */
+.box-card .row .ctrl {
+  display: flex;
+}
+.box-card .row .ctrl .more {
+  position: relative;
+  margin-left: 8px;
+}
+.box-card .row .ctrl .more:hover .moreBtn {
+  display: block;
+}
+.box-card .row .ctrl .more .moreBtn {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  /* left: -8px; */
+  left: -8px;
+  padding: 8px;
+  background: #fff;
 }
 </style>
 <style>
