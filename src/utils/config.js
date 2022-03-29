@@ -14,7 +14,7 @@ export const defaultSetting = {
   showPageAction: {
     url: 'kuaizi'
   },
-  JUMP_URL_DEFALUT: {
+  JUMP_URL_DEFAULT: {
     name: 'default',
     replaceStr: '',
     hostName: 'http://local.kuaizi.co',

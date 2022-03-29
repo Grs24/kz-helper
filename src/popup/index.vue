@@ -68,13 +68,13 @@ import {
   getCurrentTabUrl,
   getUrlParams
 } from '../utils'
-const { JUMP_URL_DEFALUT } = defaultSetting
+const { JUMP_URL_DEFAULT } = defaultSetting
 const {
   name: NAME,
   replaceStr: REPLACESTR,
   hostName: HOSTNAME,
   port: PORT
-} = JUMP_URL_DEFALUT
+} = JUMP_URL_DEFAULT
 import { initContextMenus } from '@/background/contextMenus'
 
 export default {

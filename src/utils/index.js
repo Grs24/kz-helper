@@ -2,11 +2,11 @@
  * @Description: 常用方法（包括浏览器特有事件）
  * @Date: 2021-04-27 17:12:01
  * @Author: gaorongsheng
- * @LastEditors: mazexin
- * @LastEditTime: 2021-07-08 16:10:16
+ * @LastEditors: gaorongsheng
+ * @LastEditTime: 2022-03-29 11:14:14
  */
 import { defaultSetting } from './config.js'
-const { JUMP_URL_DEFALUT } = defaultSetting
+const { JUMP_URL_DEFAULT } = defaultSetting
 
 export const jumpUrl = url => {
   window.open(url, 'target')
@@ -87,7 +87,7 @@ export const getCurrentTabUrl = () => {
  * @return {value}
  */
 export const getUrlParams = (url, reg = '') => {
-  let Reg = reg || JUMP_URL_DEFALUT.urlParamsReg
+  let Reg = reg || JUMP_URL_DEFAULT.urlParamsReg
   return url.replace(Reg, '')
 }
 
@@ -97,6 +97,6 @@ export const getUrlParams = (url, reg = '') => {
  * @return {value}
  */
 export const getUrl = (url, reg = '') => {
-  let Reg = reg || JUMP_URL_DEFALUT.urlParamsReg
+  let Reg = reg || JUMP_URL_DEFAULT.urlParamsReg
   return url.replace(Reg, '')
 }

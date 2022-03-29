@@ -85,13 +85,13 @@
 import { Notification } from 'element-ui'
 import { defaultSetting } from '../../utils/config'
 import { getChromeStorage, updateChromeStorage } from '../../utils'
-const { JUMP_URL_DEFALUT } = defaultSetting
+const { JUMP_URL_DEFAULT } = defaultSetting
 const {
   name: NAME,
   replaceStr: REPLACESTR,
   hostName: HOSTNAME,
   port: PORT
-} = JUMP_URL_DEFALUT
+} = JUMP_URL_DEFAULT
 import { initContextMenus } from '@/background/contextMenus'
 
 export default {
@@ -152,7 +152,7 @@ export default {
     },
     // 重置
     hanldeReset() {
-      this.jumpUrlData = JUMP_URL_DEFALUT
+      this.jumpUrlData = JUMP_URL_DEFAULT
       // updateChromeStorage(this.jumpUrlData, 'jumpUrlData')
     },
     // 添加/修改

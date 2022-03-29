@@ -7,7 +7,7 @@
 
 import { getChromeStorage } from '@/utils/index'
 import { defaultSetting } from '@/utils/config.js'
-const { JUMP_URL_DEFALUT } = defaultSetting
+const { JUMP_URL_DEFAULT } = defaultSetting
 
 export const initContextMenus = () => {
   // 跳转页面的事件
@@ -29,7 +29,7 @@ export const initContextMenus = () => {
   let jumpUrlDataArr
   // 清空右键菜单
   chrome.contextMenus.removeAll(async () => {
-    jumpUrlData = (await getChromeStorage('jumpUrlData')) || JUMP_URL_DEFALUT
+    jumpUrlData = (await getChromeStorage('jumpUrlData')) || JUMP_URL_DEFAULT
     jumpUrlDataArr = (await getChromeStorage('jumpUrlDataArr')) || []
     jumpUrlDataArr.unshift(jumpUrlData)
     // 添加右键菜单
@@ -46,7 +46,7 @@ export const initContextMenus = () => {
     })
   })
   chrome.contextMenus.onClicked.addListener(async info => {
-    jumpUrlData = (await getChromeStorage('jumpUrlData')) || JUMP_URL_DEFALUT
+    jumpUrlData = (await getChromeStorage('jumpUrlData')) || JUMP_URL_DEFAULT
     jumpUrlDataArr = (await getChromeStorage('jumpUrlDataArr')) || []
     jumpUrlDataArr.unshift(jumpUrlData)
     jumpUrl(info, jumpUrlDataArr[info.menuItemId])
